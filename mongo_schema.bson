@@ -1,0 +1,157 @@
+ MONGODB CRUD OPERATIONS SCHEMA
+
+
+
+---> To show database
+				- show dbs  & - show databases
+				
+---> To show collections
+				- show collections
+
+---> To create database
+				- use india
+				
+---> To insert data in collections
+				- db.indiaData.insertOne({ "state": "andhra", "capital": "Hyderabad",
+										  "districts": 20, "ut": false})
+										  
+---> To find the the data
+				- db.indiaData.find()  or db.indiaData.find().pretty()
+				
+{ _id: ObjectId("63ecc4db2b394d8980ff5e15"),
+  state: 'andhra',
+  capital: 'Hyderabad',
+  districts: 20,
+  ut: false }
+  
+---> To assign Id on your own
+				- db.indiaData.insertOne({"state": "odissa","capital": "bhuvaneshwer","districts": 30,"ut":false,"_id":"odissa_123"})
+				
+							
+CRUD:
+
+-UPDATE
+
+---> To update data
+				- db.indiaData.updateOne({"capital": "Hyderabad"},{$set:{"population": "5cr"}})
+				
+				- db.indiaData.updateMany({},{$set: {"population": "10cr"}})
+				
+		db.indiaData.find()
+{ _id: ObjectId("63ecc4db2b394d8980ff5e15"),
+  state: 'andhra',
+  capital: 'Hyderabad',
+  districts: 20,
+  ut: false,
+  population: '10cr' }
+{ _id: 'odissa_123',
+  state: 'odissa',
+  capital: 'bhuvaneshwer',
+  districts: 30,
+  ut: false,
+  population: '10cr' }
+  
+ 
+
+-DELETE
+
+ 
+---> To delete data
+				- db.indiaData.deleteOne({"state": "odissa"})
+
+			db.indiaData.find()
+{ _id: ObjectId("63ecc4db2b394d8980ff5e15"),
+  state: 'andhra',
+  capital: 'Hyderabad',
+  districts: 20,
+  ut: false,
+  population: '10cr' }
+
+					- db.indiaData.deleteMany({"population": "10cr"})
+
+
+											
+										
+-CREATE
+
+---> To create data
+					- db.indiaData.insertMany([{ 
+  "state": "andhra",
+  "capital": "Hyderabad",
+  "districts": 20,
+  "ut": false,
+  "population": "10cr" },
+{"state": "odissa",
+  "capital": "bhuvaneshwer",
+  "districts": 30,
+  "ut": false,
+  "population": "10cr" }])
+  
+  
+- READ
+
+--->  To Read the date
+					- db.indiaData.find({"state": "andhra"}).pretty()
+{ _id: ObjectId("63eccc642b394d8980ff5e16"),
+  state: 'andhra',
+  capital: 'Hyderabad',
+  districts: 20,
+  ut: false,
+  population: '10cr' }
+  
+					- db.indiaData.find({"districts": {$gt: 15}}).pretty()
+{ _id: ObjectId("63eccc642b394d8980ff5e16"),
+  state: 'andhra',
+  capital: 'Hyderabad',
+  districts: 20,
+  ut: false,
+  population: '10cr' }
+{ _id: ObjectId("63eccc642b394d8980ff5e17"),
+  state: 'odissa',
+  capital: 'bhuvaneshwer',
+  districts: 30,
+  ut: false,
+  population: '10cr' }
+  
+					- - db.indiaData.findOne({"districts": {$gt: 15}}).pretty()
+					
+	
+UPDATE:
+
+					- db.indiaData.updateOne({"_id": ObjectId("63eccc642b394d8980ff5e16")},{$set : {"costal area": true}})
+					
+-Replace				
+
+					- db.indiaData.replaceOne({"_id": ObjectId("63eccc642b394d8980ff5e17")},{"cm": "abc"})
+					
+
+
+
+					
+--->  To insert Many data
+
+
+					- db.cmlist.insertMany([
+  { state: "Andhra Pradesh", cm: "Y. S. Jaganmohan Reddy" },
+  { state: "Arunachal Pradesh", cm: "Pema Khandu" },
+  { state: "Assam", cm: "Himanta Biswa Sarma" },
+  { state: "Bihar", cm: "Nitish Kumar" },
+  { state: "Chhattisgarh", cm: "Bhupesh Baghel" },
+  { state: "Goa", cm: "Pramod Sawant" }])
+  
+					db.cmlist.find().pretty()
+					
+					db.cmlist.find().toArray()
+	
+	
+---> Projection
+
+					- db.cmlist.find({}, { state: 1, _id: 0 }).pretty()
+					 to get only stae name with out id
+				
+				
+--->  working with embedded documents
+
+		with array		- db.cmlist.updateOne({"cm":"K. Chandrashekar Rao"},{$set:{"hobies":["sports","reading"]}})
+		
+		
