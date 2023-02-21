@@ -1,0 +1,144 @@
+						Schema & relations
+
+--->  show dbs
+
+---> use shop
+
+
+---> db.products.insertOne({"name": "a book4","price" : 28})
+
+			Delete
+
+---> db.products.deleteMany({})
+
+			Insert schema
+
+---> db.products.insertOne({"name": "book5","price": 24,"details":null}) 
+
+---> db.products.insertOne({"name": "tshirt","price": 60,"details":null}) 
+
+--->db.products.insertOne({"name": "laptop","price": 68,"details":{"cpu":"intel i7})
+
+--->db.products.find().pretty()
+
+----------------------Data Types---------------------------------
+
+---> Text  		-- "name"
+
+---> boolean  	-- true/false
+
+---> Number 		-- numerics
+
+---> Embaned doc	-- { "a" : {"name": "qwert"}}
+				-- Array {"b": [{"name":"qwer"}]}
+				
+	Data Type Action
+	
+---> show dbs
+
+---> use companies
+
+---> db.companies.insertOne({"name":"fruit company","is startup": true,"employees":30,"funding": 123456789, "details":{"ceo":"abc"},"tags":[{"titles":"super"},
+									{titles": "perfect"}],"fundingDate":"new Date(),"insertedAt": new Timestamp()})
+
+
+
+
+                -- Relations --
+				 
+				 
+		One To One Relations
+		
+		Embadded
+				 
+---> show dbs
+
+---> use hospital
+
+---> db.patients.insertOne({"name": "abc","age": 25,"diseasesummary": 'summary_abc-1'})
+
+---> db.patients.find().pretty()
+
+---> db.diseasesummaries.insertOne({"_id": "summary_abc-1","diseases":["cold","caugh"]})
+
+---> db.diseasesummaries.findOne()
+
+		references
+		
+---> use cardata
+
+---> db.persons.insertOne({"name": "ram","car": {"model": 2015,"price":400000}})
+
+---> db.persons.findOne()
+
+---> db.persons.deleteMany({})
+
+---> db.persons.insertOne({"name":"qwer","age":25,"salary": 3000})
+
+---> db.cars.insertOne({"model":"bmw","price":4000,"owner": ObjectId("63f4a0e1c55007b8167f804f")})
+
+
+		One to Many
+	
+		Embadded
+		
+---> use test
+
+---> db.question.insertOne({"create":"abc","question": "how are you","answers":["q1a1","q2a2"]})
+
+--->db.question.find()
+
+---> db.answers.insertMany([{"_Id":"q1a1","text":"good"},{"_id":"q2a2","text":"thanks"}])
+
+--->db.answers.find()
+
+---> db.question.deleteMany({})
+
+--->  db.question.insertOne({"create":"abc","question": "hows u","answers":[{"text":"good"},{"text":"fine"}]})
+
+		references
+		
+---> use statedata
+
+---> db.state.insertOne({"name":"andhra","capital": "hydrabad"})
+
+---> db.state.findOne()
+
+---> 
+
+db.persons.insertMany([{"name": "raj","stateId": ObjectId("63f4a48bc55007b8167f8054")},{"name":"raju","stateId": ObjectId("63f4a48bc55007b8167f8054")}])
+
+---> db.persons.find().pretty()
+
+		Many to Many
+	
+		Embadded
+		
+---> use shops
+
+---> db.products.insertOne({"title":" book","price":30})
+
+---> db.customers.insertOne({"name":"raj","age":30})
+
+---> db.orders.insertOne({"productId":ObjectId("63f4a5f0c55007b8167f8057"),"customerId":ObjectId("63f4a636c55007b8167f8058")})
+
+no need orders in mongo
+
+---> db.customers.updateOne({},{$set: {"orders":[{"productId":ObjectId("63f4a5f0c55007b8167f8057"),"quantity": 2}]}})
+
+		references
+		
+---> use books
+
+---> db.book.insertOne({"name": " my book","authors":[{"name":"ramu","age":46},{"name":"raju","age": 50}]})
+
+--->db.book.find().pretty()
+
+---> 
+
+db.authors.insertMany([{"name":"ramu","age": 46,"address":{"streat":"hanuman"}},{"name":"raju","age": 50,"address":{"street":"main road"}}])
+
+
+--->  db.book.updateOne({},{$set:{"authors":[ObjectId("63f4a90ec55007b8167f805b"),ObjectId("63f4a90ec55007b8167f805c")]}})
+
+---> db.book.findOne()
