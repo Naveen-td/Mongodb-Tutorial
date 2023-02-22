@@ -1,0 +1,149 @@
+		
+		Insert operations:
+
+---> use contactdata
+
+		insert data as single
+
+---> db.persons.insertOne({"name": "raja","age": 25,"hobbies":["sports","cooking"]})
+
+---> db.persons.insertOne({"name": "sitha","age": 29,"hobbies":["cricket","cooking"]})
+
+		insert data as multiple
+
+---> db.persons.insertMany([{"name": "ramu","age": 39,"hobbies":["cricket","cooking"]},{"name": "hari","age": 45,"hobbies":["sports","cooking"]}])
+
+
+---> db.hobbies.insertMany([{"_id": "sports","name": "sports"}]
+
+---> db.hobbies.insertMany([{"_id": "sports","name": "sports"},{"_id": "cooking","name": "cooking"},{"_id": "cricket","name": "cricket"}])
+
+---> db.hobbies.find().pretty()
+
+		elemenate the duplicate entries
+
+---> db.hobbies.insertMany([{"_id": "yoga","name": "yoga"},{"_id": "cooking","name": "cooking"},{"_id": "hiking","name": "hiking"}])
+
+---> db.hobbies.find().pretty()
+
+		write concern
+		
+			to get fast responce form db server
+
+---> use persons
+
+---> db.persons.insertOne({"name": "yash",'age': 36},{writeConcern:{w:0}})
+
+---> db.persons.insertOne({"name": "adhi",'age': 21},{writeConcern:{w:1}})
+
+		Delete operations:
+		
+		delete sindle value
+		
+---> db.users.deleteOne({"name": "ramu"})
+		
+		delete to all records
+		
+---> db.users.deleteMany({})
+		delete multipe records
+		
+---> db.users.deleteMany({"age": {$gt:30},issporty: true})
+
+---> db.users.deleteMany({"age":{$exists: false},"issporty": true})
+		
+		delete total collection
+		
+---> db.dropDatabase()
+		
+		 dlelete total db
+
+---> db.users.drop()
+
+
+			Update operations
+
+---> db.users.insertOne({"name": "arjun","age": 35,"email": "arjun@allu.com","createdAt": new Date()})
+			
+--->db.users.insertMany([{"name": "rajkumar","age": 28,"email": "rajkumar@gmail.com","createdAt": new Date()},
+						 { "name": "rohit", "age": 42,"email": "rohit@gmail.com","createdAt": new Date()}])
+
+	updateOne
+	
+--->db.users.updateOne({ "name": "arjun" },{$set: {"email": "arjun@allu.org","age": 38}})
+
+---> db.users.updateMany({ "age": { $lt: 30 } },{$set: {"email": "ravan@gmail.com"}})
+
+
+	increment & decrement values
+	
+	increment
+	
+---> db.users.updateOne({ "name": "arjun" },{$inc: { "age": 10 }})
+	
+	decrement
+
+--->db.users.updateOne({ "name": "rajkumar" },{$inc: { "age": -10 }}) 	
+
+   $min,$max and $mul 
+   
+---> use.products.insertOne("name": "product A","price": 2000,"quantity": 100},"name": "product B","price": 5000,"quantity": 200})
+
+--->db.products.updateOne({ "name": "Product A" },{$min: { "price": 1000}})
+
+---> db.products.updateOne( { "name": "Product B" },{$max: { "price": 200 }})
+
+---> db.products.updateOne({ "name": "Product C" },{$mul: { "quantity": 2 }})
+
+		Renaming fields
+		
+---> db.users.updateMany({},{$rename: { "email_address": "email" }})
+
+	Updating all elements in an array using $[]
+
+---> db.users.updateOne({ "name": "arjun" },{ $set: { "email_addresses.$[]": "arjun@allu.com" } })
+
+	 Updating all elements in an array using $[]
+
+---> db.users.updateOne({ "name": "arjun" },{ $set: { "email_addresses.$[]": "arjun@allu.com" } })
+
+	Adding elements to an array using $push
+
+---> db.users.updateOne({ "username": "arjun" },{ $push: { "email_addresses": "arjun@allu.com" } })
+
+	Removing elements from an array using $pull
+
+---> db.users.updateOne({ "username": "arjun" },{ $pull: { "email_addresses": "arjun@allu" } })
+
+		Read operations
+		
+---> db.users.find({ "username": "arjun" })
+
+---> db.users.find().sort({ "created_at": -1 }).limit(10).skip(5)
+
+---> db.users.find().pretty()
+
+---> db.users.findOne({ "name": "arjun" }).pretty()
+
+		Embadded
+				 
+---> show dbs
+
+---> use hospital
+
+---> db.patients.insertOne({"name": "raju","age": 25,"diseasesummary": 'summary_abc-1'})
+
+---> db.patients.find().pretty()
+
+---> db.diseasesummaries.insertOne({"_id": "summary_abc-1","diseases":["cold","caugh"]})
+
+---> db.diseasesummaries.findOne()
+
+---> db.patients.find().pretty()
+
+
+
+
+
+
+
+	
