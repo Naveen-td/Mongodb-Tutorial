@@ -148,3 +148,4 @@ to show size with details
 		Dropping an index:
 
 ---> db.users.dropIndex({ "firstName": 1, "lastName": 1 });
+
