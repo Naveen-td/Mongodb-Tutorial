@@ -1,0 +1,150 @@
+		Numbers
+
+1- integrs
+2- Longs
+3- doubles
+
+-->in integers values range -2147483648 to  2147483647
+	using with normal integers
+	
+--> Longs values range -9223372036854775808 to 9223372036852775807
+	using large integers
+	
+--> doubles - numbers with decimalplace
+				decimal values are approximated
+				use for floats where high precission not required
+				
+--> high precission values - numbers with decimal values
+				decimal values are stored with high precission
+				high precission
+		
+--> db.persons.insertOne({"name": "raju","age": 20})
+
+---> db.persons.findOne()
+
+to show size with details
+
+---> db.persons.stats()
+
+--> db.persons.insertOne({"age": 30})
+		size was 35
+
+---> db.persons.insertOne({"age": NumberInt("30")})
+
+---> db.persons.stats()   
+		size was 31
+		
+			Int 64
+			
+---> db.companies.insertOne({"valuation": NumberInt("50000000000")})
+
+---> db.companies.findOne()
+				gets output is different
+				
+---> db.companies.insertOne({"valuation": NumberInt("2147483647")})
+
+---> db.companies.find().pretty()
+		gets the perfect output
+		
+---> db.companies.insertOne({"valuation": NumberInt("2147483648")})
+
+---> db.companies.find().pretty()
+				gets output is different because exeeds the positions
+				
+ for this case
+ 
+ ---> db.companies.insertOne({"valuation": "2147483648"})
+		accepts in javascript
+		
+--->db.companies.insertOne({"valuation": NumberLong("2147483648")})
+
+---> db.companies.find().pretty()
+		gets the perfect output
+		
+--->db.companies.insertOne({"valuation": NumberLong("922337203684775807")})
+
+		Maths with floats int32 & int64
+
+
+---> db.accounts.insertOne({"name": "sam","amount": "100000000000"})
+
+---> db.accounts.find().pretty()
+
+---> db.accounts.insertOne({"name": "raja","amount": "100"})
+
+---> db.accounts.updateOne({"name": "raja"},{$inc: {"amount": 100}})
+			gets error due to amount was string
+			
+---> db.accounts.insertOne({"name": "raj","amount": NumberInt("200")})
+
+---> db.accounts.updateOne({"name": "raj"},{$inc: {"amount": 100}})
+		get correct output
+		
+---> db.companies.insertOne({"valuation": NumberLong("12356789123456789")})
+
+---> db.companies.find()
+
+---> db.companies.updateOne({"_id": ObjectId("63f740f6bfc44bec0b5cd51a")},{$inc: {"valuation": 1}})
+
+		Normal doubles
+		
+---> db.math.insertOne({"price": 10.3,"price1": 10.2})
+
+---> db.math.find().pretty()
+
+--->db.math.aggregate([{$project: {"result": {$subtract: ["$a","$b"]}}}])
+
+	it gives minor different output
+	
+		with 128
+		
+---> db.math.insertOne({"price": NumberDecimal("10.3"),"price1": NumberDecimal("10.2")})
+
+---. db.math.aggregate([{$project: {"result": {$subtract: ["$price","$price1"]}}}])
+
+		Geospatial
+		
+---> use places
+
+---> db.places.insertOne({"name": "hyderabad","location": {"type": 'point',"coordinates": [-121.25412211, 25.3215441]}})
+	with longitude lotitude
+
+---> db.places.createIndex({"location": "2dsphere"})
+
+--->db.places.insertOne({"name": "vizag","location": {"type": 'Point',"coordinates"; [-121.5212211, 25.32522441]}})
+
+---> db.places.insertOne({"name": "hyd2","location": {"type": 'Point',"coordinates": [-121.9512211, 25.65522441]}})
+
+  Indexes
+  
+--->db.books.createIndex({ title: "freedom", author: 1 });
+
+		To see a list of the indexes on a collection, use the getIndexes method. 
+
+---> db.books.getIndexes();
+
+		explain method.
+
+---> db.books.find({ author: "F. Scott Fitzgerald" }).explain("executionStats");
+
+		dropIndex method.
+
+---> db.books.dropIndex({ title: "text", author: 1 });
+
+		compound index:
+
+---> db.users.createIndex({ "firstName": 1, "lastName": 1 });
+		text index:
+
+---> db.articles.createIndex({ "title": "text", "body": "text" });
+
+		Listing all indexes
+
+---> db.users.getIndexes();
+
+		execution:
+---> db.users.find({ "firstName": "John", "lastName": "Doe" }).explain();
+
+		Dropping an index:
+
+---> db.users.dropIndex({ "firstName": 1, "lastName": 1 });
