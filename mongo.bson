@@ -1,0 +1,110 @@
+
+---> db.users.insertOne({
+  username: "hari",
+  password: "password123",
+  email: "hari@mail.com"})
+
+---> db.users.findOne()
+
+--->db.users.find({})
+
+---> db.users.find({ username: "hari" })
+
+---> db.orders.find({ customerName: "hari" })
+
+ Indexes
+  
+--->db.books.createIndex({ title: "freedom", author: 1 });
+
+		To see a list of the indexes on a collection, use the getIndexes method. 
+
+---> db.books.getIndexes();
+
+		explain method.
+
+---> db.books.find({ author: "F. Scott Fitzgerald" }).explain("executionStats");
+
+		dropIndex method.
+
+---> db.books.dropIndex({ title: "text", author: 1 });
+
+		compound index:
+
+---> db.users.createIndex({ "firstName": 1, "lastName": 1 });
+		text index:
+
+---> db.articles.createIndex({ "title": "text", "body": "text" });
+
+		Listing all indexes
+
+---> db.users.getIndexes();
+
+		execution:
+---> db.users.find({ "firstName": "John", "lastName": "Doe" }).explain();
+
+		Dropping an index:
+
+---> db.users.dropIndex({ "firstName": 1, "lastName": 1 });
+
+
+--->db.orders.insertMany([
+  {
+    orderDate: new Date(),
+    customerName: "raghu",
+    items: [
+      { product: "MacBook Pro", quantity: 1, price: 2000 },
+      { product: "Apple Watch", quantity: 1, price: 400 }
+    ],
+    total: 2400
+  },
+  {
+    orderDate: new Date(),
+    customerName: "raja",
+    items: [
+      { product: "Samsung Galaxy", quantity: 1, price: 800 },
+      { product: "Google Pixel", quantity: 1, price: 700 }
+    ],
+    total: 1500}])
+
+
+---> db.users.insertMany([
+  {
+    username: "hari",
+    password: "password123",
+    email: "hari@mail.com"},
+  {
+    username: "suba",
+    password: "password456",
+    email: "suba@mail.com"
+  }])
+
+
+
+---> db.orders.aggregate([
+  { $unwind: "$items" },
+  {
+    $group: {
+      _id: "$customerName",
+      total: { $sum: { $multiply: ["$items.price", "$items.quantity"] } }
+    }
+  }])
+
+
+---> db.orders.aggregate([
+  { $group: { _id: "$customerName", count: { $sum: 1 } } }])
+
+
+---> db.orders.aggregate([
+  { $group: { _id: "$customerName", avgTotal: { $avg: "$total" } } }])
+
+
+db.users.aggregate([
+  {
+    $lookup: {
+      from: "orders",
+      localField: "username",
+      foreignField: "customerName",
+      as: "orders"
+    }
+  },
+  { $project: { _id: 0, username: 1, orderCount: { $size: "$orders" } } }])
